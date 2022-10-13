@@ -1,0 +1,92 @@
+node-got (11.8.2+~cs58.7.32-2) unstable; urgency=medium
+
+  * Team upload
+  * Back to unstable
+
+ -- Yadd <yadd@debian.org>  Wed, 06 Oct 2021 14:48:05 +0200
+
+node-got (11.8.2+~cs58.7.32-1) experimental; urgency=medium
+
+  * Team upload
+  * Update standards version to 4.6.0, no changes needed.
+  * Build-dep: replace node-typescript-types by node-types-node
+    (Closes: #979787)
+  * New upstream version 11.8.2+~cs58.7.32
+  * Refresh patches
+  * Drop CVE-2021-33502 patch
+  * Patch normalize-url to be compliant with commonjs
+  * Add patch to workaround tsc update, thus require tsc ≥ 4.4.3~
+  * Add dependency to node-quick-lru
+
+ -- Yadd <yadd@debian.org>  Fri, 01 Oct 2021 10:33:24 +0200
+
+node-got (11.8.1+~cs53.13.17-3) unstable; urgency=medium
+
+  * Team upload
+  * Fix ReDoS (Closes: #989258, CVE-2021-33502)
+
+ -- Yadd <yadd@debian.org>  Mon, 31 May 2021 11:57:23 +0200
+
+node-got (11.8.1+~cs53.13.17-2) unstable; urgency=medium
+
+  * Team upload
+  * Fix GitHub tags regex
+  * Rebuild using pkg-js-tools ≥ 0.9.65 (Closes: #988334)
+
+ -- Yadd <yadd@debian.org>  Mon, 10 May 2021 20:06:44 +0200
+
+node-got (11.8.1+~cs53.13.17-1) unstable; urgency=medium
+
+  * Team upload
+  * Declare compliance with policy 4.5.1
+  * Add ctype=nodejs to component(s)
+  * New upstream version 11.8.1+~cs53.13.17
+    Updates:
+    + got 11.8.1
+    + cacheable-lookup 5.0.4
+  * Refresh patches
+
+ -- Xavier Guimard <yadd@debian.org>  Tue, 15 Dec 2020 22:25:03 +0100
+
+node-got (11.8.0+~cs53.13.16-1) unstable; urgency=medium
+
+  * Team upload
+
+  [ Debian Janitor ]
+  * Trim trailing whitespace.
+  * Use secure copyright file specification URI.
+  * Bump debhelper from old 9 to 12.
+  * Set debhelper-compat version in Build-Depends.
+  * Set upstream metadata fields: Bug-Database, Repository, Repository-
+    Browse.
+  * Update Vcs-* headers from URL redirect.
+  * Use canonical URL in Vcs-Git.
+  * Set upstream metadata fields: Bug-Submit.
+
+  [ Xavier Guimard ]
+  * Declare compliance with policy 4.5.0
+  * Bump debhelper compatibility level to 12
+  * Use pkg-js-tools auto install
+  * Bump debhelper compatibility level to 13
+  * Add "Rules-Requires-Root: no"
+  * Add debian/gbp.conf
+  * Use dh-sequence-nodejs
+  * Embed components: cacheable-request @types/cacheable-request
+    @sindresorhus/is @szmarczak/http-timer responselike @types/responselike
+    cacheable-lookup @types/http-cache-semantics @types/keyv clone-response
+    defer-to-connect http-cache-semantics http2-wrapper keyv normalize-url
+    resolve-alpn
+  * New upstream version 11.8.0+~cs53.13.16
+  * Build with tsc
+  * Update build
+  * Update copyright
+  * Require node-p-cancelable >2
+  * Install documentation and examples
+
+ -- Xavier Guimard <yadd@debian.org>  Tue, 10 Nov 2020 14:55:45 +0100
+
+node-got (7.1.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #878743)
+
+ -- Pirate Praveen <praveen@debian.org>  Mon, 16 Oct 2017 17:27:48 +0530

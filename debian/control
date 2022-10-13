@@ -1,0 +1,54 @@
+Source: node-got
+Section: javascript
+Priority: optional
+Maintainer: Debian Javascript Maintainers <pkg-javascript-devel@lists.alioth.debian.org>
+Uploaders: Pirate Praveen <praveen@debian.org>
+Build-Depends: debhelper-compat (= 13)
+ , dh-sequence-nodejs (>= 0.9.65~)
+ , node-babel7
+ , node-decompress-response
+ , node-get-stream
+ , node-json-buffer
+ , node-lowercase-keys
+ , node-mimic-response
+ , node-p-cancelable (>= 2.0.0~)
+ , node-quick-lru <!nocheck>
+ , node-typescript (>= 4.4.3~)
+ , node-types-node
+Standards-Version: 4.6.0
+Vcs-Browser: https://salsa.debian.org/js-team/node-got
+Vcs-Git: https://salsa.debian.org/js-team/node-got.git
+Homepage: https://github.com/sindresorhus/got
+Testsuite: autopkgtest-pkg-nodejs
+Rules-Requires-Root: no
+
+Package: node-got
+Architecture: all
+Depends: ${misc:Depends}
+ , node-decompress-response
+ , node-get-stream
+ , node-lowercase-keys
+ , node-json-buffer
+ , node-mimic-response
+ , node-p-cancelable (>= 2.0.0~)
+ , node-quick-lru
+ , nodejs
+Provides: ${nodejs:Provides}
+Description: Simplified HTTP requests
+ This module provides a nicer interface to the built-in http module.
+ .
+ This module was created because request is bloated *(several megabytes!)*.
+ .
+ Highlights:
+  - Promise & stream API
+  - Request cancellation
+  - Follows redirects
+  - Retries on network failure
+  - Handles gzip/deflate
+  - Timeout handling
+  - Errors with metadata
+  - JSON mode
+  - WHATWG URL support
+  - Electron support
+ .
+ Node.js is an event-based server-side JavaScript engine.

@@ -1,0 +1,171 @@
+Description: workaround tsc update
+Author: Yadd <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2021-10-01
+
+--- a/source/as-promise/create-rejection.ts
++++ b/source/as-promise/create-rejection.ts
+@@ -13,6 +13,7 @@
+ 					}
+ 				}
+ 			} catch (error_) {
++				// @ts-ignore
+ 				error = error_;
+ 			}
+ 		}
+--- a/source/as-promise/index.ts
++++ b/source/as-promise/index.ts
+@@ -9,6 +9,7 @@
+ 	HTTPError,
+ 	CancelError
+ } from './types';
++// @ts-ignore
+ import parseBody from './parse-body';
+ import Request from '../core';
+ import proxyEvents from '../core/utils/proxy-events';
+@@ -80,6 +81,7 @@
+ 						response.body = rawBody.toString();
+ 
+ 						if (isResponseOk(response)) {
++							// @ts-ignore
+ 							request._beforeError(error);
+ 							return;
+ 						}
+@@ -119,7 +121,9 @@
+ 							return promise;
+ 						});
+ 					}
++				// @ts-ignore
+ 				} catch (error) {
++					// @ts-ignore
+ 					request._beforeError(new RequestError(error.message, error, request));
+ 					return;
+ 				}
+--- a/source/as-promise/parse-body.ts
++++ b/source/as-promise/parse-body.ts
+@@ -26,6 +26,7 @@
+ 			name: 'Error'
+ 		}, response);
+ 	} catch (error) {
++		// @ts-ignore
+ 		throw new ParseError(error, response);
+ 	}
+ };
+--- a/source/core/index.ts
++++ b/source/core/index.ts
+@@ -11,7 +11,6 @@
+ import CacheableLookup from 'cacheable-lookup';
+ import CacheableRequest = require('cacheable-request');
+ import decompressResponse = require('decompress-response');
+-// @ts-expect-error Missing types
+ import http2wrapper = require('http2-wrapper');
+ import lowercaseKeys = require('lowercase-keys');
+ import ResponseLike = require('responselike');
+@@ -1438,6 +1437,7 @@
+ 					options.body.destroy();
+ 				}
+ 
++				// @ts-ignore
+ 				this.destroy(error);
+ 				return;
+ 			}
+@@ -1483,6 +1483,7 @@
+ 
+ 				// This is a workaround for https://github.com/nodejs/node/issues/33335
+ 				if (!this.destroyed) {
++					// @ts-ignore
+ 					this.destroy(error);
+ 				}
+ 			}
+@@ -2039,6 +2040,7 @@
+ 			try {
+ 				await Promise.all(promises);
+ 			} catch (error) {
++				// @ts-ignore
+ 				this._beforeError(error);
+ 				return;
+ 			}
+@@ -2129,6 +2131,7 @@
+ 
+ 				await this._makeRequest();
+ 			} catch (error) {
++				// @ts-ignore
+ 				this._beforeError(error);
+ 				return;
+ 			}
+@@ -2185,6 +2188,7 @@
+ 			await this._onResponseBase(response);
+ 		} catch (error) {
+ 			/* istanbul ignore next: better safe than sorry */
++			// @ts-ignore
+ 			this._beforeError(error);
+ 		}
+ 	}
+@@ -2351,6 +2355,7 @@
+ 		// Fallback function
+ 		let fallbackFn: HttpRequestFunction;
+ 		if (options.http2) {
++			// @ts-ignore
+ 			fallbackFn = http2wrapper.auto;
+ 		} else {
+ 			fallbackFn = isHttps ? https.request : http.request;
+@@ -2483,6 +2488,7 @@
+ 				throw new CacheError(error, this);
+ 			}
+ 
++			// @ts-ignore
+ 			throw new RequestError(error.message, error, this);
+ 		}
+ 	}
+@@ -2494,6 +2500,7 @@
+ 				error = await hook(error);
+ 			}
+ 		} catch (error_) {
++			// @ts-ignore
+ 			error = new RequestError(error_.message, error_, this);
+ 		}
+ 
+@@ -2559,6 +2566,7 @@
+ 						})
+ 					});
+ 				} catch (error_) {
++					// @ts-ignore
+ 					void this._error(new RequestError(error_.message, error_, this));
+ 					return;
+ 				}
+@@ -2571,6 +2579,7 @@
+ 								await hook(this.options, typedError, retryCount);
+ 							}
+ 						} catch (error_) {
++							// @ts-ignore
+ 							void this._error(new RequestError(error_.message, error, this));
+ 							return;
+ 						}
+--- a/source/create.ts
++++ b/source/create.ts
+@@ -154,6 +154,7 @@
+ 				callInitHooks(defaults.options.hooks.init, options);
+ 				callInitHooks(options.hooks?.init, options);
+ 			} catch (error) {
++				// @ts-ignore
+ 				initHookError = error;
+ 			}
+ 
+@@ -170,6 +171,7 @@
+ 			if (options.isStream) {
+ 				throw error;
+ 			} else {
++				// @ts-ignore
+ 				return createRejection(error, defaults.options.hooks.beforeError, options.hooks?.beforeError);
+ 			}
+ 		}
+--- a/source/utils/deprecation-warning.ts
++++ b/source/utils/deprecation-warning.ts
+@@ -7,7 +7,6 @@
+ 
+ 	alreadyWarned.add(message);
+ 
+-	// @ts-expect-error Missing types.
+ 	process.emitWarning(`Got: ${message}`, {
+ 		type: 'DeprecationWarning'
+ 	});

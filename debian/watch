@@ -1,0 +1,107 @@
+version=4
+opts=\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-got-$1.tar.gz/ \
+ https://github.com/sindresorhus/got/tags .*/archive/.*/v?([\d\.]+).tar.gz group
+
+opts=\
+ctype=nodejs,\
+component=cacheable-lookup,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-cacheable-lookup-$1.tar.gz/ \
+ https://github.com/szmarczak/cacheable-lookup/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+opts=\
+ctype=nodejs,\
+component=cacheable-request,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-cacheable-request-$1.tar.gz/ \
+ https://github.com/lukechilds/cacheable-request/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+# It is not recommended use npmregistry. Please investigate more.
+# Take a look at https://wiki.debian.org/debian/watch/
+opts="searchmode=plain,ctype=nodejs,component=types-cacheable-request,pgpmode=none" \
+ https://registry.npmjs.org/@types/cacheable-request https://registry.npmjs.org/@types/cacheable-request/-/cacheable-request-([\d\.]+)@ARCHIVE_EXT@ checksum
+
+opts=\
+ctype=nodejs,\
+component=clone-response,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-clone-response-$1.tar.gz/ \
+ https://github.com/lukechilds/clone-response/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+opts=\
+ctype=nodejs,\
+component=defer-to-connect,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-defer-to-connect-$1.tar.gz/ \
+ https://github.com/szmarczak/defer-to-connect/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+opts=\
+ctype=nodejs,\
+component=http-cache-semantics,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-http-cache-semantics-$1.tar.gz/ \
+ https://github.com/kornelski/http-cache-semantics/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+# It is not recommended use npmregistry. Please investigate more.
+# Take a look at https://wiki.debian.org/debian/watch/
+opts="searchmode=plain,ctype=nodejs,component=types-http-cache-semantics,pgpmode=none" \
+ https://registry.npmjs.org/@types/http-cache-semantics https://registry.npmjs.org/@types/http-cache-semantics/-/http-cache-semantics-([\d\.]+)@ARCHIVE_EXT@ checksum
+
+# It is not recommended use npmregistry. Please investigate more.
+# Take a look at https://wiki.debian.org/debian/watch/
+opts="searchmode=plain,ctype=nodejs,component=http2-wrapper,pgpmode=none" \
+ https://registry.npmjs.org/http2-wrapper https://registry.npmjs.org/http2-wrapper/-/http2-wrapper-([\d\.]+)@ARCHIVE_EXT@ checksum
+
+opts=\
+ctype=nodejs,\
+component=keyv,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-keyv-$1.tar.gz/ \
+ https://github.com/lukechilds/keyv/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+# It is not recommended use npmregistry. Please investigate more.
+# Take a look at https://wiki.debian.org/debian/watch/
+opts="searchmode=plain,ctype=nodejs,component=types-keyv,pgpmode=none" \
+ https://registry.npmjs.org/@types/keyv https://registry.npmjs.org/@types/keyv/-/keyv-([\d\.]+)@ARCHIVE_EXT@ checksum
+
+opts=\
+ctype=nodejs,\
+component=normalize-url,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-normalize-url-$1.tar.gz/ \
+ https://github.com/sindresorhus/normalize-url/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+opts=\
+ctype=nodejs,\
+component=resolve-alpn,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-resolve-alpn-$1.tar.gz/ \
+ https://github.com/szmarczak/resolve-alpn/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+opts=\
+ctype=nodejs,\
+component=responselike,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-responselike-$1.tar.gz/ \
+ https://github.com/lukechilds/responselike/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+# It is not recommended use npmregistry. Please investigate more.
+# Take a look at https://wiki.debian.org/debian/watch/
+opts="searchmode=plain,ctype=nodejs,component=types-responselike,pgpmode=none" \
+ https://registry.npmjs.org/@types/responselike https://registry.npmjs.org/@types/responselike/-/responselike-([\d\.]+)@ARCHIVE_EXT@ checksum
+
+opts=\
+ctype=nodejs,\
+component=sindresorhus-is,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-is-$1.tar.gz/ \
+ https://github.com/sindresorhus/is/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
+
+opts=\
+ctype=nodejs,\
+component=szmarczak-http-timer,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-http-timer-$1.tar.gz/ \
+ https://github.com/szmarczak/http-timer/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum

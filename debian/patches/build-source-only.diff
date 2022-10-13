@@ -1,0 +1,39 @@
+Description: don't build bench & test files
+Author: Xavier Guimard <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2020-11-10
+
+--- a/defer-to-connect/tsconfig.json
++++ b/defer-to-connect/tsconfig.json
+@@ -8,7 +8,6 @@
+     ]
+   },
+   "include": [
+-		"source",
+-		"tests"
++		"source"
+   ]
+ }
+--- a/szmarczak-http-timer/tsconfig.json
++++ b/szmarczak-http-timer/tsconfig.json
+@@ -24,7 +24,6 @@
+ 		"skipLibCheck": true
+ 	},
+ 	"include": [
+-		"source",
+-		"tests"
++		"source"
+ 	]
+ }
+--- a/tsconfig.json
++++ b/tsconfig.json
+@@ -9,8 +9,6 @@
+ 		]
+ 	},
+ 	"include": [
+-		"source",
+-		"test",
+-		"benchmark"
++		"source"
+ 	]
+ }
