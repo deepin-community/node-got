@@ -1,8 +1,10 @@
 export interface Options {
 	/**
 	@default 'http:'
+
+	Values: `'https:' | 'http:'`
 	*/
-	readonly defaultProtocol?: string;
+	readonly defaultProtocol?: string; // TODO: Make this `'https:' | 'http:'` in the next major version.
 
 	/**
 	Prepends `defaultProtocol` to the URL if it's protocol-relative.
@@ -87,7 +89,9 @@ export interface Options {
 	readonly stripHash?: boolean;
 
 	/**
-	Removes HTTP(S) protocol from an URL `http://sindresorhus.com` → `sindresorhus.com`.
+	Remove the protocol from the URL: `http://sindresorhus.com` → `sindresorhus.com`.
+
+	It will only remove `https://` and `http://` protocols.
 
 	@default false
 
@@ -176,6 +180,23 @@ export interface Options {
 	readonly removeQueryParameters?: ReadonlyArray<RegExp | string> | boolean;
 
 	/**
+	Keeps only query parameters that matches any of the provided strings or regexes.
+
+	__Note__: It overrides the `removeQueryParameters` option.
+
+	@default undefined
+
+	@example
+	```
+	normalizeUrl('https://sindresorhus.com?foo=bar&ref=unicorn', {
+		keepQueryParameters: ['ref']
+	});
+	//=> 'https://sindresorhus.com/?ref=unicorn'
+	```
+	*/
+	readonly keepQueryParameters?: ReadonlyArray<RegExp | string>;
+
+	/**
 	Removes trailing slash.
 
 	__Note__: Trailing slash is always removed if the URL doesn't have a pathname unless the `removeSingleSlash` option is set to `false`.
@@ -197,7 +218,7 @@ export interface Options {
 	readonly removeTrailingSlash?: boolean;
 
 	/**
-	Remove a sole `/` pathname in the output. This option is independant of `removeTrailingSlash`.
+	Remove a sole `/` pathname in the output. This option is independent of `removeTrailingSlash`.
 
 	@default true
 

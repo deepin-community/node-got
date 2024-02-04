@@ -28,7 +28,7 @@ test('properties', withServer, async (t, server, got) => {
 	// Class fields will always be initialized, even though they are undefined
 	// A test to check for undefined is in place below
 	// t.false({}.hasOwnProperty.call(error, 'code'));
-	t.is(error.code, undefined);
+	t.is(error.code, 'ERR_NON_2XX_3XX_RESPONSE');
 	t.is(error.message, 'Response code 404 (Not Found)');
 	t.deepEqual(error.options.url, url);
 	t.is(error.response.headers.connection, 'close');
@@ -41,6 +41,7 @@ test('catches dns errors', async t => {
 	t.regex(error.message, /ENOTFOUND|EAI_AGAIN/);
 	t.is(error.options.url.host, 'doesntexist');
 	t.is(error.options.method, 'GET');
+	t.is(error.code, 'ENOTFOUND');
 });
 
 test('`options.body` form error message', async t => {
@@ -130,6 +131,7 @@ test('`http.request` error', async t => {
 		}
 	}), {
 		instanceOf: got.RequestError,
+		code: 'ERR_GOT_REQUEST_ERROR',
 		message: 'The header content contains invalid characters'
 	});
 });
@@ -180,15 +182,6 @@ test('`http.request` error through CacheableRequest', async t => {
 	});
 });
 
-test('errors are thrown directly when options.isStream is true', t => {
-	t.throws(() => {
-		// @ts-expect-error Error tests
-		void got('https://example.com', {isStream: true, hooks: false});
-	}, {
-		message: 'Expected value which is `predicate returns truthy for any value`, received value of type `Array`.'
-	});
-});
-
 test('normalization errors using convenience methods', async t => {
 	const url = 'undefined/https://example.com';
 	await t.throwsAsync(got(url).json().text().buffer(), {message: `Invalid URL: ${url}`});
@@ -215,7 +208,8 @@ test('promise does not hang on timeout on HTTP error', withServer, async (t, ser
 	await t.throwsAsync(got({
 		timeout: 100
 	}), {
-		instanceOf: TimeoutError
+		instanceOf: TimeoutError,
+		code: 'ETIMEDOUT'
 	});
 });
 

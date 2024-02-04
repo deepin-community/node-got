@@ -1,21 +1,21 @@
 version=4
 opts=\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-got-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-got-$1/ \
  https://github.com/sindresorhus/got/tags .*/archive/.*/v?([\d\.]+).tar.gz group
 
 opts=\
 ctype=nodejs,\
 component=cacheable-lookup,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-cacheable-lookup-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-cacheable-lookup-$1/ \
  https://github.com/szmarczak/cacheable-lookup/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 opts=\
 ctype=nodejs,\
 component=cacheable-request,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-cacheable-request-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-cacheable-request-$1/ \
  https://github.com/lukechilds/cacheable-request/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 # It is not recommended use npmregistry. Please investigate more.
@@ -27,21 +27,21 @@ opts=\
 ctype=nodejs,\
 component=clone-response,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-clone-response-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-clone-response-$1/ \
  https://github.com/lukechilds/clone-response/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 opts=\
 ctype=nodejs,\
 component=defer-to-connect,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-defer-to-connect-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-defer-to-connect-$1/ \
  https://github.com/szmarczak/defer-to-connect/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 opts=\
 ctype=nodejs,\
 component=http-cache-semantics,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-http-cache-semantics-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-http-cache-semantics-$1/ \
  https://github.com/kornelski/http-cache-semantics/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 # It is not recommended use npmregistry. Please investigate more.
@@ -58,7 +58,7 @@ opts=\
 ctype=nodejs,\
 component=keyv,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-keyv-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-keyv-$1/ \
  https://github.com/lukechilds/keyv/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 # It is not recommended use npmregistry. Please investigate more.
@@ -70,21 +70,21 @@ opts=\
 ctype=nodejs,\
 component=normalize-url,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-normalize-url-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-normalize-url-$1/ \
  https://github.com/sindresorhus/normalize-url/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 opts=\
 ctype=nodejs,\
 component=resolve-alpn,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-resolve-alpn-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-resolve-alpn-$1/ \
  https://github.com/szmarczak/resolve-alpn/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 opts=\
 ctype=nodejs,\
 component=responselike,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-responselike-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-responselike-$1/ \
  https://github.com/lukechilds/responselike/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 # It is not recommended use npmregistry. Please investigate more.
@@ -96,12 +96,12 @@ opts=\
 ctype=nodejs,\
 component=sindresorhus-is,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-is-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-is-$1/ \
  https://github.com/sindresorhus/is/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum
 
 opts=\
 ctype=nodejs,\
 component=szmarczak-http-timer,\
 dversionmangle=auto,\
-filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-http-timer-$1.tar.gz/ \
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-http-timer-$1/ \
  https://github.com/szmarczak/http-timer/tags .*/archive/.*/v?([\d\.]+).tar.gz checksum

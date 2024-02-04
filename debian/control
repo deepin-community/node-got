@@ -15,7 +15,7 @@ Build-Depends: debhelper-compat (= 13)
  , node-quick-lru <!nocheck>
  , node-typescript (>= 4.4.3~)
  , node-types-node
-Standards-Version: 4.6.0
+Standards-Version: 4.6.2
 Vcs-Browser: https://salsa.debian.org/js-team/node-got
 Vcs-Git: https://salsa.debian.org/js-team/node-got.git
 Homepage: https://github.com/sindresorhus/got
@@ -32,7 +32,6 @@ Depends: ${misc:Depends}
  , node-mimic-response
  , node-p-cancelable (>= 2.0.0~)
  , node-quick-lru
- , nodejs
 Provides: ${nodejs:Provides}
 Description: Simplified HTTP requests
  This module provides a nicer interface to the built-in http module.

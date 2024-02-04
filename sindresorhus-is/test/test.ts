@@ -170,6 +170,14 @@ const types = new Map<string, Test>([
 		],
 		typename: 'Buffer'
 	}],
+	['blob', {
+		is: is.blob,
+		assert: assert.blob,
+		fixtures: [
+			new window.Blob()
+		],
+		typename: 'Blob'
+	}],
 	['object', {
 		is: is.object,
 		assert: assert.object,
@@ -683,6 +691,10 @@ test('is.buffer', t => {
 	testType(t, 'buffer');
 });
 
+test('is.blob', t => {
+	testType(t, 'blob');
+});
+
 test('is.object', t => {
 	const testData = types.get('object');
 
@@ -830,6 +842,23 @@ test('is.arrayBuffer', t => {
 
 test('is.dataView', t => {
 	testType(t, 'dataView');
+});
+
+test('is.enumCase', t => {
+	enum NonNumericalEnum {
+		Key1 = 'key1',
+		Key2 = 'key2',
+	}
+
+	t.true(is.enumCase('key1', NonNumericalEnum));
+	t.notThrows(() => {
+		assert.enumCase('key1', NonNumericalEnum);
+	});
+
+	t.false(is.enumCase('invalid', NonNumericalEnum));
+	t.throws(() => {
+		assert.enumCase('invalid', NonNumericalEnum);
+	});
 });
 
 test('is.directInstanceOf', t => {
@@ -1386,6 +1415,23 @@ test('is.emptyString', t => {
 	});
 });
 
+test('is.emptyStringOrWhitespace', t => {
+	testType(t, 'emptyString', ['string']);
+	t.true(is.emptyStringOrWhitespace('  '));
+	t.false(is.emptyStringOrWhitespace('🦄'));
+	t.false(is.emptyStringOrWhitespace('unicorn'));
+
+	t.notThrows(() => {
+		assert.emptyStringOrWhitespace('  ');
+	});
+	t.throws(() => {
+		assert.emptyStringOrWhitespace('🦄');
+	});
+	t.throws(() => {
+		assert.emptyStringOrWhitespace('unicorn');
+	});
+});
+
 test('is.nonEmptyString', t => {
 	t.false(is.nonEmptyString(''));
 	t.false(is.nonEmptyString(String()));
@@ -1402,20 +1448,24 @@ test('is.nonEmptyString', t => {
 	});
 });
 
-test('is.emptyStringOrWhitespace', t => {
-	testType(t, 'emptyString', ['string']);
-	t.true(is.emptyStringOrWhitespace('  '));
-	t.false(is.emptyStringOrWhitespace('🦄'));
-	t.false(is.emptyStringOrWhitespace('unicorn'));
+test('is.nonEmptyStringAndNotWhitespace', t => {
+	t.false(is.nonEmptyStringAndNotWhitespace(' '));
+	t.true(is.nonEmptyStringAndNotWhitespace('🦄'));
+
+	for (const value of [null, undefined, 5, NaN, {}, []]) {
+		t.false(is.nonEmptyStringAndNotWhitespace(value));
+
+		t.throws(() => {
+			assert.nonEmptyStringAndNotWhitespace(value);
+		});
+	}
+
+	t.throws(() => {
+		assert.nonEmptyStringAndNotWhitespace('');
+	});
 
 	t.notThrows(() => {
-		assert.emptyStringOrWhitespace('  ');
-	});
-	t.throws(() => {
-		assert.emptyStringOrWhitespace('🦄');
-	});
-	t.throws(() => {
-		assert.emptyStringOrWhitespace('unicorn');
+		assert.nonEmptyStringAndNotWhitespace('🦄');
 	});
 });
 
