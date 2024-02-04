@@ -2,11 +2,11 @@
 
 module.exports = stream => {
 	if (stream.listenerCount('error') !== 0) {
-		return;
+		return stream;
 	}
 
 	stream.__destroy = stream._destroy;
-	stream._destroy = async (...args) => {
+	stream._destroy = (...args) => {
 		const callback = args.pop();
 
 		stream.__destroy(...args, async error => {

@@ -1,4 +1,4 @@
 build-source-only.diff
 fix-package-json-paths.diff
+commonjs.patch
 workaround-tsc-update.patch
-old-nodejs-compatibility.patch

@@ -1,7 +1,7 @@
-import test from 'ava';
-import tk from 'timekeeper';
-import keyvTestSuite from '@keyv/test-suite';
-import Keyv from 'this';
+const test = require('ava');
+const keyvTestSuite = require('@keyv/test-suite').default;
+const Keyv = require('this');
+const tk = require('timekeeper');
 
 test.serial('Keyv is a class', t => {
 	t.is(typeof Keyv, 'function');
@@ -22,9 +22,9 @@ test.serial('Keyv passes tll info to stores', async t => {
 	t.plan(1);
 	const store = new Map();
 	const storeSet = store.set;
-	store.set = (key, val, ttl) => {
+	store.set = (key, value, ttl) => {
 		t.is(ttl, 100);
-		storeSet.call(store, key, val, ttl);
+		storeSet.call(store, key, value, ttl);
 	};
 
 	const keyv = new Keyv({ store });

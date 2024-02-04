@@ -192,6 +192,7 @@ export default function normalizeUrl(urlString, options) {
 
 	// Remove query unwanted parameters
 	if (Array.isArray(options.removeQueryParameters)) {
+		// eslint-disable-next-line unicorn/no-useless-spread -- We are intentionally spreading to get a copy.
 		for (const key of [...urlObject.searchParams.keys()]) {
 			if (testParameter(key, options.removeQueryParameters)) {
 				urlObject.searchParams.delete(key);
@@ -199,13 +200,28 @@ export default function normalizeUrl(urlString, options) {
 		}
 	}
 
-	if (options.removeQueryParameters === true) {
+	if (!Array.isArray(options.keepQueryParameters) && options.removeQueryParameters === true) {
 		urlObject.search = '';
+	}
+
+	// Keep wanted query parameters
+	if (Array.isArray(options.keepQueryParameters) && options.keepQueryParameters.length > 0) {
+		// eslint-disable-next-line unicorn/no-useless-spread -- We are intentionally spreading to get a copy.
+		for (const key of [...urlObject.searchParams.keys()]) {
+			if (!testParameter(key, options.keepQueryParameters)) {
+				urlObject.searchParams.delete(key);
+			}
+		}
 	}
 
 	// Sort query parameters
 	if (options.sortQueryParameters) {
 		urlObject.searchParams.sort();
+
+		// Calling `.sort()` encodes the search parameters, so we need to decode them again.
+		try {
+			urlObject.search = decodeURIComponent(urlObject.search);
+		} catch {}
 	}
 
 	if (options.removeTrailingSlash) {

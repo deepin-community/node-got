@@ -1,3 +1,58 @@
+node-got (11.8.5+~cs58.13.36-3) unstable; urgency=medium
+
+  * Team upload
+  * Update tsc patch (Closes: #1028888)
+  * Update standards version to 4.6.2, no changes needed.
+
+ -- Yadd <yadd@debian.org>  Sun, 15 Jan 2023 07:21:20 +0400
+
+node-got (11.8.5+~cs58.13.36-2) unstable; urgency=medium
+
+  * Team upload
+  * Update typescript patch for tsc 4.8
+  * Fix commonjs patch
+
+ -- Yadd <yadd@debian.org>  Sun, 16 Oct 2022 10:00:02 +0200
+
+node-got (11.8.5+~cs58.13.36-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 11.8.5+~cs58.13.36
+  * Drop CVE-2022-33987.patch, now included in upstream
+  * Refresh patches
+
+ -- Yadd <yadd@debian.org>  Fri, 02 Sep 2022 11:34:04 +0200
+
+node-got (11.8.3+~cs58.7.37-3) unstable; urgency=medium
+
+  * Team upload
+  * Declare compliance with policy 4.6.1
+  * Add lintian overrides
+  * Don't allow redirection to Unix socket (Closes: #1013264, CVE-2022-33987)
+
+ -- Yadd <yadd@debian.org>  Wed, 29 Jun 2022 16:11:01 +0200
+
+node-got (11.8.3+~cs58.7.37-2) unstable; urgency=medium
+
+  * Team upload
+  * Update tsc workarounds patch for nodejs >= 14 (Closes: #1007893)
+
+ -- Yadd <yadd@debian.org>  Fri, 18 Mar 2022 14:18:58 +0100
+
+node-got (11.8.3+~cs58.7.37-1) unstable; urgency=medium
+
+  * Team upload
+  * Fix filenamemangle
+  * Drop dependency to nodejs
+  * New upstream version 11.8.3+~cs58.7.37, updates:
+    + got 11.8.3
+    + cacheable-lookup 6.0.4
+    + http2-wrapper 2.1.9
+    + keyv 4.0.4
+  * Refresh patches
+
+ -- Yadd <yadd@debian.org>  Sat, 20 Nov 2021 16:22:42 +0100
+
 node-got (11.8.2+~cs58.7.32-2) unstable; urgency=medium
 
   * Team upload

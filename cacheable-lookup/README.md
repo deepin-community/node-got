@@ -3,7 +3,7 @@
 > A cacheable [`dns.lookup(…)`](https://nodejs.org/api/dns.html#dns_dns_lookup_hostname_options_callback) that respects TTL :tada:
 
 [![Node CI](https://github.com/szmarczak/cacheable-lookup/workflows/Node%20CI/badge.svg)](https://github.com/szmarczak/cacheable-lookup/actions)
-[![Coverage Status](https://coveralls.io/repos/github/szmarczak/cacheable-lookup/badge.svg?branch=master)](https://coveralls.io/github/szmarczak/cacheable-lookup?branch=master)
+[![codecov](https://codecov.io/gh/szmarczak/cacheable-lookup/branch/master/graph/badge.svg)](https://codecov.io/gh/szmarczak/cacheable-lookup)
 [![npm](https://img.shields.io/npm/dm/cacheable-lookup.svg)](https://www.npmjs.com/package/cacheable-lookup)
 [![install size](https://packagephobia.now.sh/badge?p=cacheable-lookup)](https://packagephobia.now.sh/result?p=cacheable-lookup)
 
@@ -28,10 +28,13 @@ http.get('http://example.com', {lookup: cacheable.lookup}, response => {
 
 ```js
 const http = require('http');
+const https = require('https');
 const CacheableLookup = require('cacheable-lookup');
 
 const cacheable = new CacheableLookup();
+
 cacheable.install(http.globalAgent);
+cacheable.install(https.globalAgent);
 
 http.get('http://example.com', response => {
 	// Handle the response here
@@ -152,6 +155,12 @@ The timestamp (`Date.now() + ttl * 1000`) when the entry expires.
 **Note**: This is not present when falling back to `dns.lookup(...)`!
 
 The time in seconds for its lifetime.
+
+#### source
+
+**Note**: This is not present when falling back to `dns.lookup(...)`!
+
+Whether this entry was loaded from the cache or came from a query (`cache` or `query`)
 
 ### Entry object (callback-style)
 

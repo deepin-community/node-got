@@ -8,11 +8,11 @@ Useful when you need to display, store, deduplicate, sort, compare, etc, URLs.
 
 ## Install
 
-```
-$ npm install normalize-url
+```sh
+npm install normalize-url
 ```
 
-*If you need to use this in the browser, use version 4: `npm i normalize-url@4`*
+*If you need Safari support, use version 4: `npm i normalize-url@4`*
 
 ## Usage
 
@@ -43,7 +43,8 @@ Type: `object`
 ##### defaultProtocol
 
 Type: `string`\
-Default: `http:`
+Default: `http:`\
+Values: `'https:' | 'http:'`
 
 ##### normalizeProtocol
 
@@ -127,7 +128,9 @@ normalizeUrl('sindresorhus.com/about.html#contact', {stripHash: true});
 Type: `boolean`\
 Default: `false`
 
-Remove HTTP(S) protocol from the URL: `http://sindresorhus.com` → `sindresorhus.com`.
+Remove the protocol from the URL: `http://sindresorhus.com` → `sindresorhus.com`.
+
+It will only remove `https://` and `http://` protocols.
 
 ```js
 normalizeUrl('https://sindresorhus.com');
@@ -207,6 +210,22 @@ normalizeUrl('www.sindresorhus.com?foo=bar&utm_medium=test&ref=test_ref', {
 //=> 'http://www.sindresorhus.com/?foo=bar&ref=test_ref&utm_medium=test'
 ```
 
+##### keepQueryParameters
+
+Type: `Array<RegExp | string>`\
+Default: `undefined`
+
+Keeps only query parameters that matches any of the provided strings or regexes.
+
+**Note:** It overrides the `removeQueryParameters` option.
+
+```js
+normalizeUrl('https://sindresorhus.com?foo=bar&ref=unicorn', {
+	keepQueryParameters: ['ref']
+});
+//=> 'https://sindresorhus.com/?ref=unicorn'
+```
+
 ##### removeTrailingSlash
 
 Type: `boolean`\
@@ -232,7 +251,7 @@ normalizeUrl('http://sindresorhus.com/', {removeTrailingSlash: false});
 Type: `boolean`\
 Default: `true`
 
-Remove a sole `/` pathname in the output. This option is independant of `removeTrailingSlash`.
+Remove a sole `/` pathname in the output. This option is independent of `removeTrailingSlash`.
 
 ```js
 normalizeUrl('https://sindresorhus.com/');

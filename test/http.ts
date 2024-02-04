@@ -16,7 +16,8 @@ const testIPv6 = (IPv6supported && process.env.TRAVIS_DIST !== 'bionic' && proce
 const echoIp: Handler = (request, response) => {
 	const address = request.connection.remoteAddress;
 	if (address === undefined) {
-		return response.end();
+		response.end();
+		return;
 	}
 
 	// IPv4 address mapped to IPv6
@@ -92,6 +93,7 @@ test('doesn\'t throw if `options.throwHttpErrors` is false', withServer, async (
 test('invalid protocol throws', async t => {
 	await t.throwsAsync(got('c:/nope.com').json(), {
 		instanceOf: UnsupportedProtocolError,
+		code: 'ERR_UNSUPPORTED_PROTOCOL',
 		message: 'Unsupported protocol "c:"'
 	});
 });
@@ -225,6 +227,7 @@ test('throws an error if the server aborted the request', withServer, async (t, 
 	});
 
 	const error = await t.throwsAsync<ReadError>(got(''), {
+		code: 'ECONNRESET',
 		message: 'The server aborted pending request'
 	});
 

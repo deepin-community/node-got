@@ -2,7 +2,7 @@
 /// <reference lib="dom"/>
 /// <reference types="node"/>
 
-import {Class, TypedArray, ObservableLike, Primitive} from './types';
+import {Class, Falsy, TypedArray, ObservableLike, Primitive} from './types';
 
 const typedArrayTypeNames = [
 	'Int8Array',
@@ -34,6 +34,7 @@ const objectTypeNames = [
 	'Observable',
 	'Array',
 	'Buffer',
+	'Blob',
 	'Object',
 	'RegExp',
 	'Date',
@@ -178,16 +179,17 @@ is.array = <T = unknown>(value: unknown, assertion?: (value: T) => value is T): 
 };
 
 is.buffer = (value: unknown): value is Buffer => (value as any)?.constructor?.isBuffer?.(value) ?? false;
+is.blob = (value: unknown): value is Blob => isObjectOfType<Blob>('Blob')(value);
 
 is.nullOrUndefined = (value: unknown): value is null | undefined => is.null_(value) || is.undefined(value);
 is.object = (value: unknown): value is object => !is.null_(value) && (typeof value === 'object' || is.function_(value));
-is.iterable = <T = unknown>(value: unknown): value is IterableIterator<T> => is.function_((value as IterableIterator<T>)?.[Symbol.iterator]);
+is.iterable = <T = unknown>(value: unknown): value is Iterable<T> => is.function_((value as Iterable<T>)?.[Symbol.iterator]);
 
-is.asyncIterable = <T = unknown>(value: unknown): value is AsyncIterableIterator<T> => is.function_((value as AsyncIterableIterator<T>)?.[Symbol.asyncIterator]);
+is.asyncIterable = <T = unknown>(value: unknown): value is AsyncIterable<T> => is.function_((value as AsyncIterable<T>)?.[Symbol.asyncIterator]);
 
-is.generator = (value: unknown): value is Generator => is.iterable(value) && is.function_(value.next) && is.function_(value.throw);
+is.generator = (value: unknown): value is Generator => is.iterable(value) && is.function_((value as Generator)?.next) && is.function_((value as Generator)?.throw);
 
-is.asyncGenerator = (value: unknown): value is AsyncGenerator => is.asyncIterable(value) && is.function_(value.next) && is.function_(value.throw);
+is.asyncGenerator = (value: unknown): value is AsyncGenerator => is.asyncIterable(value) && is.function_((value as AsyncGenerator).next) && is.function_((value as AsyncGenerator).throw);
 
 is.nativePromise = <T = unknown>(value: unknown): value is Promise<T> =>
 	isObjectOfType<Promise<T>>('Promise')(value);
@@ -230,6 +232,7 @@ is.bigUint64Array = isObjectOfType<BigUint64Array>('BigUint64Array');
 is.arrayBuffer = isObjectOfType<ArrayBuffer>('ArrayBuffer');
 is.sharedArrayBuffer = isObjectOfType<SharedArrayBuffer>('SharedArrayBuffer');
 is.dataView = isObjectOfType<DataView>('DataView');
+is.enumCase = <T = unknown>(value: unknown, targetEnum: T) => Object.values(targetEnum).includes(value as string);
 
 is.directInstanceOf = <T>(instance: unknown, class_: Class<T>): instance is T => Object.getPrototypeOf(instance) === class_.prototype;
 is.urlInstance = (value: unknown): value is URL => isObjectOfType<URL>('URL')(value);
@@ -247,11 +250,10 @@ is.urlString = (value: unknown): value is string => {
 	}
 };
 
-// TODO: Use the `not` operator with a type guard here when it's available.
 // Example: `is.truthy = (value: unknown): value is (not false | not 0 | not '' | not undefined | not null) => Boolean(value);`
-is.truthy = (value: unknown) => Boolean(value);
+is.truthy = <T>(value: T | Falsy): value is T => Boolean(value);
 // Example: `is.falsy = (value: unknown): value is (not true | 0 | '' | undefined | null) => Boolean(value);`
-is.falsy = (value: unknown) => !value;
+is.falsy = <T>(value: T | Falsy): value is Falsy => !value;
 
 is.nan = (value: unknown) => Number.isNaN(value as number);
 
@@ -344,11 +346,14 @@ is.nonEmptyArray = (value: unknown): value is unknown[] => is.array(value) && va
 
 is.emptyString = (value: unknown): value is '' => is.string(value) && value.length === 0;
 
+const isWhiteSpaceString = (value: unknown): value is string => is.string(value) && !/\S/.test(value);
+is.emptyStringOrWhitespace = (value: unknown): value is string => is.emptyString(value) || isWhiteSpaceString(value);
+
 // TODO: Use `not ''` when the `not` operator is available.
 is.nonEmptyString = (value: unknown): value is string => is.string(value) && value.length > 0;
 
-const isWhiteSpaceString = (value: unknown): value is string => is.string(value) && !/\S/.test(value);
-is.emptyStringOrWhitespace = (value: unknown): value is string => is.emptyString(value) || isWhiteSpaceString(value);
+// TODO: Use `not ''` when the `not` operator is available.
+is.nonEmptyStringAndNotWhitespace = (value: unknown): value is string => is.string(value) && !is.emptyStringOrWhitespace(value);
 
 is.emptyObject = <Key extends keyof any = string>(value: unknown): value is Record<Key, never> => is.object(value) && !is.map(value) && !is.set(value) && Object.keys(value).length === 0;
 
@@ -431,8 +436,9 @@ export const enum AssertionTypeDescription {
 	emptyArray = 'empty array',
 	nonEmptyArray = 'non-empty array',
 	emptyString = 'empty string',
-	nonEmptyString = 'non-empty string',
 	emptyStringOrWhitespace = 'empty string or whitespace',
+	nonEmptyString = 'non-empty string',
+	nonEmptyStringAndNotWhitespace = 'non-empty string and not whitespace',
 	emptyObject = 'empty object',
 	nonEmptyObject = 'non-empty object',
 	emptySet = 'empty set',
@@ -466,6 +472,7 @@ interface Assert {
 	numericString: (value: unknown) => asserts value is string;
 	array: <T = unknown>(value: unknown, assertion?: (element: unknown) => asserts element is T) => asserts value is T[];
 	buffer: (value: unknown) => asserts value is Buffer;
+	blob: (value: unknown) => asserts value is Blob;
 	nullOrUndefined: (value: unknown) => asserts value is null | undefined;
 	object: <Key extends keyof any = string, Value = unknown>(value: unknown) => asserts value is Record<Key, Value>;
 	iterable: <T = unknown>(value: unknown) => asserts value is Iterable<T>;
@@ -501,6 +508,7 @@ interface Assert {
 	arrayBuffer: (value: unknown) => asserts value is ArrayBuffer;
 	sharedArrayBuffer: (value: unknown) => asserts value is SharedArrayBuffer;
 	dataView: (value: unknown) => asserts value is DataView;
+	enumCase: <T = unknown>(value: unknown, targetEnum: T) => asserts value is T[keyof T];
 	urlInstance: (value: unknown) => asserts value is URL;
 	urlString: (value: unknown) => asserts value is string;
 	truthy: (value: unknown) => asserts value is unknown;
@@ -519,8 +527,9 @@ interface Assert {
 	emptyArray: (value: unknown) => asserts value is never[];
 	nonEmptyArray: (value: unknown) => asserts value is unknown[];
 	emptyString: (value: unknown) => asserts value is '';
-	nonEmptyString: (value: unknown) => asserts value is string;
 	emptyStringOrWhitespace: (value: unknown) => asserts value is string;
+	nonEmptyString: (value: unknown) => asserts value is string;
+	nonEmptyStringAndNotWhitespace: (value: unknown) => asserts value is string;
 	emptyObject: <Key extends keyof any = string>(value: unknown) => asserts value is Record<Key, never>;
 	nonEmptyObject: <Key extends keyof any = string, Value = unknown>(value: unknown) => asserts value is Record<Key, Value>;
 	emptySet: (value: unknown) => asserts value is Set<never>;
@@ -566,6 +575,7 @@ export const assert: Assert = {
 		}
 	},
 	buffer: (value: unknown): asserts value is Buffer => assertType(is.buffer(value), 'Buffer', value),
+	blob: (value: unknown): asserts value is Blob => assertType(is.blob(value), 'Blob', value),
 	nullOrUndefined: (value: unknown): asserts value is null | undefined => assertType(is.nullOrUndefined(value), AssertionTypeDescription.nullOrUndefined, value),
 	object: (value: unknown): asserts value is object => assertType(is.object(value), 'Object', value),
 	iterable: <T = unknown>(value: unknown): asserts value is Iterable<T> => assertType(is.iterable(value), AssertionTypeDescription.iterable, value),
@@ -601,6 +611,7 @@ export const assert: Assert = {
 	arrayBuffer: (value: unknown): asserts value is ArrayBuffer => assertType(is.arrayBuffer(value), 'ArrayBuffer', value),
 	sharedArrayBuffer: (value: unknown): asserts value is SharedArrayBuffer => assertType(is.sharedArrayBuffer(value), 'SharedArrayBuffer', value),
 	dataView: (value: unknown): asserts value is DataView => assertType(is.dataView(value), 'DataView', value),
+	enumCase: <T = unknown>(value: unknown, targetEnum: T): asserts value is T[keyof T] => assertType(is.enumCase(value, targetEnum), 'EnumCase', value),
 	urlInstance: (value: unknown): asserts value is URL => assertType(is.urlInstance(value), 'URL', value),
 	urlString: (value: unknown): asserts value is string => assertType(is.urlString(value), AssertionTypeDescription.urlString, value),
 	truthy: (value: unknown): asserts value is unknown => assertType(is.truthy(value), AssertionTypeDescription.truthy, value),
@@ -619,8 +630,9 @@ export const assert: Assert = {
 	emptyArray: (value: unknown): asserts value is never[] => assertType(is.emptyArray(value), AssertionTypeDescription.emptyArray, value),
 	nonEmptyArray: (value: unknown): asserts value is unknown[] => assertType(is.nonEmptyArray(value), AssertionTypeDescription.nonEmptyArray, value),
 	emptyString: (value: unknown): asserts value is '' => assertType(is.emptyString(value), AssertionTypeDescription.emptyString, value),
-	nonEmptyString: (value: unknown): asserts value is string => assertType(is.nonEmptyString(value), AssertionTypeDescription.nonEmptyString, value),
 	emptyStringOrWhitespace: (value: unknown): asserts value is string => assertType(is.emptyStringOrWhitespace(value), AssertionTypeDescription.emptyStringOrWhitespace, value),
+	nonEmptyString: (value: unknown): asserts value is string => assertType(is.nonEmptyString(value), AssertionTypeDescription.nonEmptyString, value),
+	nonEmptyStringAndNotWhitespace: (value: unknown): asserts value is string => assertType(is.nonEmptyStringAndNotWhitespace(value), AssertionTypeDescription.nonEmptyStringAndNotWhitespace, value),
 	emptyObject: <Key extends keyof any = string>(value: unknown): asserts value is Record<Key, never> => assertType(is.emptyObject(value), AssertionTypeDescription.emptyObject, value),
 	nonEmptyObject: <Key extends keyof any = string, Value = unknown>(value: unknown): asserts value is Record<Key, Value> => assertType(is.nonEmptyObject(value), AssertionTypeDescription.nonEmptyObject, value),
 	emptySet: (value: unknown): asserts value is Set<never> => assertType(is.emptySet(value), AssertionTypeDescription.emptySet, value),

@@ -1,0 +1,14 @@
+# Same author
+add-component-copyright normalize-url *
+add-component-copyright sindresorhus-is *
+# Match types-*/*
+add-component-copyright types-cacheable-request *
+add-component-copyright types-http-cache-semantics *
+add-component-copyright types-keyv *
+add-component-copyright types-responselike *
+
+# False positives
+very-long-line-length-in-source-file *media/logo.*
+very-long-line-length-in-source-file *sindresorhus-is/header.gif*
+very-long-line-length-in-source-file *.md*
+very-long-line-length-in-source-file *LICENSE*
