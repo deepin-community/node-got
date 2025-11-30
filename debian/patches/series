@@ -2,3 +2,4 @@ build-source-only.diff
 fix-package-json-paths.diff
 commonjs.patch
 workaround-tsc-update.patch
+0005-Update-timed-out.ts.patch

@@ -1,0 +1,40 @@
+From: Ryan Cavanaugh <RyanCavanaugh@users.noreply.github.com>
+Date: Tue, 11 Oct 2022 12:56:31 -0700
+Subject: Update timed-out.ts
+
+TypeScript 4.9 can narrow more correctly with the `in` operator. Since this property is declared as being always present, code that only runs if it's *not* present marks that variable as `never` and causes errors. The correct definition is to mark this as optional (alternatively, you can upcast `reentry` to `symbol` in the `in` checks, but that's more invasive and less correct)
+
+origin: backport, https://github.com/sindresorhus/got/commit/45dd4d2b79fb93a6aecf8dcbc8cdea02563d2dcf
+bug: https://github.com/sindresorhus/got/pull/2163
+---
+ source/core/utils/timed-out.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Index: node-got/source/core/utils/timed-out.ts
+===================================================================
+--- node-got.orig/source/core/utils/timed-out.ts
++++ node-got/source/core/utils/timed-out.ts
+@@ -1,7 +1,14 @@
+ import net = require('net');
+-import {ClientRequest, IncomingMessage} from 'http';
++import type {ClientRequest, IncomingMessage} from 'node:http';
+ import unhandler from './unhandle';
+ 
++declare module 'http' {
++    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- This has to be an `interface` to be able to be merged.
++    interface ClientRequest {
++	[reentry]?: boolean;
++    }
++}
++
+ const reentry: unique symbol = Symbol('reentry');
+ const noop = (): void => {};
+ 
+@@ -173,6 +180,6 @@ export default (request: ClientRequest,
+ 
+ declare module 'http' {
+ 	interface ClientRequest {
+-		[reentry]: boolean;
++		[reentry]?: boolean;
+ 	}
+ }

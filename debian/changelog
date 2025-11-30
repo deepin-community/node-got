@@ -1,3 +1,20 @@
+node-got (11.8.5+~cs58.13.36-5) unstable; urgency=medium
+
+  * Team upload
+  * Bug fix: "rebuild fails with node-typescript 4.9.5 in experimental",
+    thanks to weepingclown (Closes: #1055654). Try another fix
+    by depending on nodejs:http
+
+ -- Bastien Roucariès <rouca@debian.org>  Thu, 07 Nov 2024 10:55:16 +0000
+
+node-got (11.8.5+~cs58.13.36-4) unstable; urgency=medium
+
+  * Team upload
+  * Bug fix: "rebuild fails with node-typescript 4.9.5 in experimental",
+    thanks to weepingclown (Closes: #1055654).
+
+ -- Bastien Roucariès <rouca@debian.org>  Tue, 05 Nov 2024 14:29:34 +0000
+
 node-got (11.8.5+~cs58.13.36-3) unstable; urgency=medium
 
   * Team upload
